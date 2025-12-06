@@ -5,6 +5,7 @@ import javax.swing.*;
  * @author alma1
  */
 public class MenuPrincipal extends JFrame {
+    
     public MenuPrincipal(String usuario, String rol) {
         setTitle("Ropa Artesanal - Menú");
         setSize(980,560);
@@ -35,14 +36,22 @@ public class MenuPrincipal extends JFrame {
         if (!"Administrador".equalsIgnoreCase(rol)) {
             btnProveedores.setEnabled(false);
             btnReportes.setEnabled(false);
+            btnProductos.setEnabled(false);
+            btnInventario.setEnabled(false);
         }
-
-        // Acciones: abrir formularios que usan tus clases CRUD
+        
+        //llamar formulario para las clases CRUD
         btnClientes.addActionListener(e -> new ClientesForm().setVisible(true));
-        btnProveedores.addActionListener(e -> { /* abrir ProveedoresForm */ });
-        btnProductos.addActionListener(e -> { /* abrir ProductosForm */ });
+        btnProveedores.addActionListener(e -> new ProveedoresForm().setVisible(true));
+        btnProductos.addActionListener(e -> new ProductosForm().setVisible(true));
+        btnVentas.addActionListener(e -> new VentasForm().setVisible(true));
         btnSalir.addActionListener(e -> { dispose(); new LoginForm().setVisible(true); });
-
+        //AUN TENGO QUE IMPLEMENTAR ESTO 
+        btnInventario.addActionListener(e -> JOptionPane.showMessageDialog(this, "Módulo de Inventario Pendiente"));
+        btnApartados.addActionListener(e -> JOptionPane.showMessageDialog(this, "Módulo de Apartados Pendiente"));
+        btnPagos.addActionListener(e -> JOptionPane.showMessageDialog(this, "Módulo de Pagos Pendiente"));
+        btnReportes.addActionListener(e -> JOptionPane.showMessageDialog(this, "Módulo de Reportes Pendiente"));
+        
         JLabel lbl = new JLabel("Bienvenido, " + usuario);
         lbl.setBounds(240, 40, 500, 30);
         lbl.setFont(new java.awt.Font("Arial",1,20));
@@ -51,9 +60,15 @@ public class MenuPrincipal extends JFrame {
         JLabel rolLbl = new JLabel("Rol: " + rol);
         rolLbl.setBounds(240, 75, 300, 20);
         add(rolLbl);
+        
+        //cerrar sesion 
+        btnSalir.addActionListener(e -> {
+            dispose();
+            new LoginForm().setVisible(true);
+        });
     }
-
-    private JButton crearBoton(String text, int y) {
+    //crear botones
+    private JButton crearBoton(String text, int y){ 
         JButton b = new JButton(text);
         b.setBounds(20, y, 180, 38);
         return b;
